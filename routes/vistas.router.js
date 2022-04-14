@@ -8,5 +8,6 @@ router.get("/createalbum", (req, res) => {res.render('createalbum')})
 router.get("/store", (req, res) => {res.render('store')})
 router.get("/myCollection", (req, res) => {res.render('mycollection')})
 router.get("/adminAlbums", (req, res) => {res.render('adminalbums')})
+router.get("/updateAlbum", (req, res) => {res.render('updatealbum')})
 
 module.exports = router;
