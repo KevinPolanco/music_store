@@ -1,4 +1,5 @@
 const express = require('express')
+const routerApi = require('./routes')
 const { create } = require("express-handlebars");
 const app = express();
 
@@ -15,6 +16,6 @@ app.use(express.static(__dirname + "/public"))
 
 app.use(express.static("node_modules/bootstrap/dist"))
 
-app.use('/', require('./routes/vistas.router'))
+routerApi(app);
 
 app.listen(3000, () => {console.log(`Server ON, in port 3000`)})
