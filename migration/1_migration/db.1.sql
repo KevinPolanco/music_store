@@ -54,7 +54,7 @@ VALUES
 INSERT INTO users_discs (discs_id, users_id)
 VALUES (1, 2), (2, 1);
 
-SELECT ud.discs_id, d.id as discs_id, d.name, d.artist, d.genre, d.release_year, d.label, d.price, d.cover, d.url from discs d
+SELECT ud.users_id, d.id as discs_id, d.name, d.artist, d.genre, d.release_year, d.label, d.price, d.cover, d.url from discs d
  inner join users_discs ud 
     on d.id = ud.discs_id
 where ud.users_id = 1; 

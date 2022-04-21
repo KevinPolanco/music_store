@@ -118,11 +118,46 @@ const deleteUserDB = async (id) => {
   }
 }
 
+const getUserDiscsDB = async (id) => {
+  const client = await pool.connect()
+  console.log(id)
+  const query = {
+    text: `
+          SELECT ud.users_id, d.id as discs_id, d.name, d.artist, d.genre, d.release_year, d.label, d.price, d.cover, d.url from discs d
+          inner join users_discs ud 
+            on d.id = ud.discs_id
+          where ud.users_id = $1;`,
+    values: [id]
+  }
+  try {
+      const rta = await client.query(query)
+      if (rta.rowCount === 0){
+        return {
+          ok: false,
+          msg: 'not found'
+        }
+      }
+      return {
+        ok: true,
+        discs: rta.rows
+      }
+  } catch (error) {
+      return {
+          ok: false,
+          msg: error.message
+      }
+  } finally {
+      client.release();
+  }
+}
+
+ 
 
 module.exports = {
   getUsersDB,
   getUserDB,
   createUsersDB,
   updateUserDB,
-  deleteUserDB
+  deleteUserDB,
+  getUserDiscsDB
 }
