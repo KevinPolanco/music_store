@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const routerApi = require('./routes')
 const { create } = require("express-handlebars");
@@ -15,6 +16,9 @@ app.set('views', './views')
 app.use(express.static(__dirname + "/public"))
 
 app.use(express.static("node_modules/bootstrap/dist"))
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 routerApi(app);
 

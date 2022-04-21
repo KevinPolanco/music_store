@@ -1,15 +1,14 @@
-const { Client } = require('pg')
+const { Pool } = require('pg')
 
-const getConection = async () => {
-  const client = new Client({
-    host: 'localhost',
-    port: 5432,
-    user: 'postgres',
-    password: 'root',
-    database: 'music_store'
-  });
-  await client.connect();
-  return client;
-}
+const connectionString = 
+    process.env.DATABASE_URL || 
+    `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`
 
-module.exports = getConection;
+const pool = process.env.DATABASE_URL ?
+  new Pool({
+      connectionString,
+      ssl: {rejectUnauthorized: false}
+  }) : new Pool({ connectionString });
+    
+
+module.exports = pool;
