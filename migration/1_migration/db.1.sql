@@ -42,20 +42,18 @@ VALUES (1, 'client'), (2, 'administrator');
 
 INSERT INTO users (name, email, password, type)
 VALUES 
-('user1', 'user1@email.com', '123', 1), 
-('user2', 'user2@email.com', '123', 1),
-('admin', 'admin@email.com', '123', 2);
+('admin', 'admin@email.com', '$2a$10$Bow8h1mfrGC6NDCyaC0SDew03lOdPiBSly5x1g3D6obSUxz/YBV0i', 2);
 
 INSERT INTO discs (name, artist, genre, release_year, label, price, cover, url)
 VALUES 
-('A Love Supreme', 'John Coltrane', 'Avant-garde jazz', 1965, 'Impulse!', 12.999, 'A _Love_Supreme.jpg', '7Eoz7hJvaX1eFkbpQxC5PA'), 
-('Kind of Blue', 'Miles Davis', 'Modal jazz', 1959, '	Columbia', 12.999, 'Kind _of_Blue.jpg', '1weenld61qoidwYuZ1GESA');
+('Moanin', 'Art Blakey', 'Hard bop', 1959, 'Blue Note', 12.999, 'http://birkajazz.se/graphics2/blakeyMoanin.jpg', '5PzlTnVafjgt5RtjTdIKoC'),
+('The Big Beat', 'Art Blakey', 'Hard bop', 1960, 'Blue Note', 10.999, 'http://birkajazz.se/graphics2/blakeyBN4029.jpg', '3xTvTulNR8Ba1uk0oDaQbs');
 
-INSERT INTO users_discs (discs_id, users_id)
-VALUES (1, 2), (2, 1);
+-- INSERT INTO users_discs (discs_id, users_id)
+-- VALUES (1, 2), (2, 1);
 
-SELECT ud.users_id, d.id as discs_id, d.name, d.artist, d.genre, d.release_year, d.label, d.price, d.cover, d.url from discs d
- inner join users_discs ud 
-    on d.id = ud.discs_id
-where ud.users_id = 1; 
+-- SELECT ud.users_id, d.id as discs_id, d.name, d.artist, d.genre, d.release_year, d.label, d.price, d.cover, d.url from discs d
+--  inner join users_discs ud 
+--     on d.id = ud.discs_id
+-- where ud.users_id = 1; 
 

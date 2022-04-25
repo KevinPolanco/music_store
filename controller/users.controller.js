@@ -1,6 +1,7 @@
 const { getUsersDB, getUserDB, createUsersDB, updateUserDB, deleteUserDB, getUserDiscsDB } = require('../database/users.querys')
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const { password } = require('pg/lib/defaults');
 
 const getUsers = async (req, res) => {
   const rta = await getUsersDB();
@@ -45,7 +46,9 @@ const createUsers = async (req, res) => {
 const updateUser = async (req, res) => {
   const { name, email, password } = req.body;
   const { id } = req.params
-  const rta = await updateUserDB(id, name, email, password);
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash(password, salt)
+  const rta = await updateUserDB(id, name, email, hashPassword);
   if(rta.msg === 'not found'){
     return res.status(404).json({ok: false, msg: rta.msg}); 
   }
@@ -68,7 +71,7 @@ const deleteUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  const { email, password } = req.body 
+  const { email, password } = req.body;
   const rta = await getUsersDB()
   const user = rta.users.find(item => item.email == email)
   if(!rta.ok){
@@ -91,13 +94,13 @@ const loginUser = async (req, res) => {
   const payload = { id:user.id, type:user.type};
   const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "1h"});
   return res.json({
-    OK: true,
+    ok: true,
     token
   })
 };
 
 const getUserDiscs = async (req, res) => {
-  const { id } = req.params
+  const  id  = req.id
   const rta = await getUserDiscsDB(id);
   if(rta.msg === 'not found'){
     return res.status(404).json({ok: false, msg: rta.msg}); 
