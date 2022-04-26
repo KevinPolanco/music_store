@@ -28,6 +28,7 @@ const createUsers = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hashPassword = await bcrypt.hash(password, salt)
   let rta = await getUsersDB()
+  
   if(!rta.ok){
     return res.status(500).json({ok: false, msg: rta.msg}); 
   }
@@ -39,8 +40,10 @@ const createUsers = async (req, res) => {
     if(!rta.ok){
       return res.status(500).json({ok: false, msg: rta.msg}); 
     }
-    return res.status(201).json({ok: true, users: rta.users})
-  }
+    const payload = { id:rta.users[0].id, type:rta.users[0].type};
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "1h"});
+    return res.status(201).json({ok: true, token})
+    }
 };
 
 const updateUser = async (req, res) => {
