@@ -32,15 +32,15 @@
         <label class="form-label">Url</label>
         <input type="text" class="form-control" placeholder="Ingrese url" name="url">
       </div>
-      <div class="form-group">
-        <label>Cover</label>
-        <input 
-            type="file" 
-            name="cover"/>
+       <div class="mb-3">
+        <label class="form-label">Cover album</label>
+        <input type="text" class="form-control" placeholder="Ingrese cover album" name="cover">
+      </div>
+      <div id="msg" class="text-center">
+        
       </div>
       
-      
-      <div class="position-relative mt-4">
+      <div class="">
         <button type="submit" class="btn btn-success position-absolute start-50 translate-middle mt-3">Registrar album</button>
       </div>
     </form>
@@ -50,5 +50,40 @@
  
   
 </div>
+
+<script>
+  const msg = document.getElementById('msg')
+  const writeData = (data) => {
+    msg.innerHTML = '';
+    msg.innerHTML = `<p class="mb-2 mtb-5" style="color: red;">${data.msg}</p>`;
+  } 
+  document.addEventListener('submit', async (e) => {
+    e.preventDefault() 
+    const formData = new FormData(e.target)
+    const objectFormData = Object.fromEntries(formData)
+    const jsonFormData = JSON.stringify(objectFormData)
+    msg.innerHTML = '';
+
+    try {
+      const res = await fetch('/api/v1/discs', {
+          method: 'post', 
+          body: jsonFormData, 
+          headers:{'Content-Type':"application/json"}
+        })
+      const data = await res.json()
+      console.log(data)
+      if(!data.ok) {
+        writeData(data)
+      }
+      if(data.ok){
+        window.location.href = "/adminAlbums";
+      } 
+     
+    } catch (error) {
+      console.log(error)
+    }
+
+    })
+</script>
 
 

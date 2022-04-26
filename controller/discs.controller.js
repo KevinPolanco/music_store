@@ -22,6 +22,7 @@ const getDisc = async (req, res) => {
 
 const cretaDisc = async (req, res) => {
   const { name, artist, genre, release_year, label, price, cover, url } = req.body
+    console.log(req.body)
     let rta = await getDiscsDB()
     if(!rta.ok){
       return res.status(500).json({ok: false, msg: rta.msg}); 

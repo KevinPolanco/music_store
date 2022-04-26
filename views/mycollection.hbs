@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center ">
   
-  <div class="container row row-cols-1">
+  <div id="app" class="container row row-cols-1 minHeight">
 
     <div class="col-md-4">
       <img src="http://birkajazz.se/graphics2/morganLeeWay.jpg" class="img-fluid rounded-start" alt="...">
@@ -44,7 +44,7 @@
     </div>
     <hr class="mt-md-5 mb-md-5">
 
-     <div class="col-md-4">
+    <div class="col-md-4">
       <img src="http://birkajazz.se/graphics2/morganLeeWay.jpg" class="img-fluid rounded-start" alt="...">
     </div>
     <div class="col-md-8">
@@ -59,7 +59,53 @@
     <hr class="mt-md-5 mb-md-5">
 
 
-
   </div>
   
 </div>
+
+<script>
+  const writeData = (data) => {
+        app.innerHTML = ''
+        data.forEach((data) => {
+          app.innerHTML += `
+            <div class="col-md-4">
+              <img src="${data.cover}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <div class="text-end card-title">
+                <h5 class="card-title">${data.name}</h5>
+                <p class="card-text"><b>${data.artist}</b></p>
+                <iframe src="https://open.spotify.com/embed/album/${data.url}" width="100%" height="75" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>  
+              </div>
+              </div>
+            </div>
+            <hr class="mt-md-5 mb-md-5">
+          `
+        })
+    }
+
+  if(!localStorage.getItem('token')){
+    window.location.href= "/login"
+  }
+
+  document.addEventListener("DOMContentLoaded", async() => {
+    try{
+      const res = await fetch('/api/v1/users/discs', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      const data = await res.json()
+      console.log(data.discs)
+       if(!data.ok){
+        window.location.href= "login"
+      }
+      writeData(data.discs)
+    } catch (error) {
+
+    }
+
+  })
+
+</script>
