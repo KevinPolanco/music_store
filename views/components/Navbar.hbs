@@ -26,7 +26,8 @@
 <script>
   const loguot = document.getElementById('loguot')
   loguot.addEventListener('click', async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     localStorage.clear();
+    window.location.href= "/login"
   })
 </script>

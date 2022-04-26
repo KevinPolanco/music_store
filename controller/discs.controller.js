@@ -1,4 +1,4 @@
-const { getDiscsDB, getDiscDB, cretaDiscDB, updateDiscDB, deleteDiscDB } = require('../database/discs.querys')
+const { getDiscsDB, getDiscDB, cretaDiscDB, updateDiscDB, deleteDiscDB, addDiscsUserDB } = require('../database/discs.querys')
 
 const getDiscs = async (req, res) => {
   const rta = await getDiscsDB();
@@ -63,10 +63,21 @@ const deleteDisc = async (req, res) => {
   return res.json({ok: true, discs: rta.discs});
 };
 
+const addDiscsUser = async (req, res) => {
+  const {discs_id} = req.body
+  const users_id = parseInt(req.id)
+  const rta = await addDiscsUserDB(parseInt(discs_id), users_id);
+  if(!rta.ok){
+    return res.status(500).json({ok: false, msg: rta.msg}); 
+  }
+  return res.status(201).json({ok: true, discs: rta.discs})
+}
+
 module.exports = {
   getDiscs,
   getDisc,
   cretaDisc,
   updateDisc,
-  deleteDisc
+  deleteDisc,
+  addDiscsUser
 }

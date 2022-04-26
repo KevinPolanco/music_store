@@ -125,10 +125,33 @@ const deleteDiscDB = async (id) => {
   }
 }
 
+const addDiscsUserDB = async (discs_id, users_id) => {
+  const client = await pool.connect()
+  const query = {
+       text: `INSERT INTO users_discs (discs_id, users_id) VALUES ($1,$2) RETURNING *`, 
+       values: [discs_id, users_id]
+   }
+  try {
+      const rta = await client.query(query)
+      return {
+          ok: true,
+          discs: rta.rows
+      }
+  } catch (error) {
+      return {
+          ok: false,
+          msg: error.message
+      }
+  } finally {
+      client.release();
+  }
+}
+
 module.exports = {
   getDiscsDB,
   getDiscDB,
   cretaDiscDB,
   updateDiscDB,
-  deleteDiscDB
+  deleteDiscDB,
+  addDiscsUserDB
 }
