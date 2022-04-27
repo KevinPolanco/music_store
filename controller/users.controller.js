@@ -1,4 +1,4 @@
-const { getUsersDB, getUserDB, createUsersDB, updateUserDB, deleteUserDB, getUserDiscsDB } = require('../database/users.querys')
+const { getUsersDB, getUserDB, createUsersDB, updateUserDB, deleteUserDB } = require('../database/users.querys')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 const { password } = require('pg/lib/defaults');
@@ -102,17 +102,6 @@ const loginUser = async (req, res) => {
   })
 };
 
-const getUserDiscs = async (req, res) => {
-  const  id  = req.id
-  const rta = await getUserDiscsDB(id);
-  if(rta.msg === 'not found'){
-    return res.status(404).json({ok: false, msg: rta.msg}); 
-  }
-  if(!rta.ok){
-    return res.status(500).json({ok: false, msg: rta.msg}); 
-  }
-  return res.json({ok: true, discs: rta.discs});
-};
 
 module.exports = {
   getUsers,
@@ -120,6 +109,5 @@ module.exports = {
   createUsers,
   updateUser,
   deleteUser,
-  loginUser,
-  getUserDiscs
+  loginUser
 }

@@ -91,15 +91,15 @@
 
   document.addEventListener("DOMContentLoaded", async() => {
     try{
-      const res = await fetch('/api/v1/users/discs', {
+      const res = await fetch('/api/v1/discs/discsUser', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       })
       const data = await res.json()
       console.log(data.discs)
-       if(!data.ok){
-        window.location.href= "login"
+      if(!data.ok){
+        window.location.href= "store"
       }
       writeData(data.discs)
     } catch (error) {

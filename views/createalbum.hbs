@@ -29,12 +29,12 @@
         <input type="text" class="form-control" placeholder="Ingrese precio" name="price">
       </div>
       <div class="mb-3">
-        <label class="form-label">Url</label>
-        <input type="text" class="form-control" placeholder="Ingrese url" name="url">
+        <label class="form-label">Código spotify</label>
+        <input type="text" class="form-control" placeholder="Ingrese código spotify" name="url">
       </div>
        <div class="mb-3">
-        <label class="form-label">Cover album</label>
-        <input type="text" class="form-control" placeholder="Ingrese cover album" name="cover">
+        <label class="form-label">URL cover album</label>
+        <input type="text" class="form-control" placeholder="Ingrese URL cover album" name="cover">
       </div>
       <div id="msg" class="text-center">
         
@@ -56,7 +56,21 @@
   const writeData = (data) => {
     msg.innerHTML = '';
     msg.innerHTML = `<p class="mb-2 mtb-5" style="color: red;">${data.msg}</p>`;
-  } 
+  }
+  document.addEventListener("DOMContentLoaded", async() => {
+    const res = await fetch('/api/v1/discs/admin', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      const data = await res.json()
+      if(!data.ok){
+        window.location.href= "login"
+      }
+      if(data.msg === "restricted user"){
+        window.location.href= "store"
+      }
+  })
   document.addEventListener('submit', async (e) => {
     e.preventDefault() 
     const formData = new FormData(e.target)
@@ -83,7 +97,7 @@
       console.log(error)
     }
 
-    })
+  })
 </script>
 
 

@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center minHeight">
   
-  <div class="container row row-cols-1">
+  <div id="app"class="container row row-cols-1">
 
     <div class="col-md-4">
       <img src="http://birkajazz.se/graphics2/morganLeeWay.jpg" class="img-fluid rounded-start" alt="...">
@@ -81,3 +81,207 @@
   </div>
   
 </div>
+
+{{!-- modal --}}
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div id="modalDisc" class="modal-content">
+      <div class="modal-header">
+        <h5 class="text-center">Actualizar datos</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form class=" mt-5">
+        <div class="mb-3">
+          <label class="form-label">Nombre album</label>
+          <input type="text" class="form-control" placeholder="Ingrese nombre album" name="name" value="Leeway">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Nombre musico</label>
+          <input type="text" class="form-control" placeholder="Ingrese nombre musico" name="artist" value="Lee Morgan">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Genero musical</label>
+          <input type="text" class="form-control" placeholder="Ingrese genero" name="genre" value="Jazz">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Año lanzamineto</label>
+          <input type="text" class="form-control" placeholder="Ingrese año de lanzamineto" name="release_year" value="1961">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Sello discográfico</label>
+          <input type="text" class="form-control" placeholder="Ingrese sello discográfico" name="label" value="Blue Note">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Precio</label>
+          <input type="text" class="form-control" placeholder="Ingrese precio" name="price" value="12.999">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Url</label>
+          <input type="text" class="form-control" placeholder="Ingrese url" name="url" value="">
+        </div>
+        
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success">Actualizar album</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="align-items-end">
+
+</div>
+
+<script>
+  const writeData = (data) => {
+    app.innerHTML = ''
+    data.forEach((data) => {
+      app.innerHTML += `
+        <div class="col-md-4">
+          <img src="${data.cover}" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-4">
+          <div class="card-body mt-md-3">
+            <h5 class="card-title">${data.name}</h5>
+            <p class="card-text"><b><a href="">${data.artist}</a> </b></p>
+            <p class="card-text"><p><b>Sello:</b> ${data.label}<br><b>Lanzamineto:</b> ${data.release_year}<br><b>Genero:</b> ${data.genre}</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card-body mt-md-3 text-end">
+            <h2 class="card-title">$${data.price}</h2>
+            <button href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" data-update="${data.id}" class="btn btn-warning btn-lg mb-1">Actualizar</button>
+            <button href="#" data-delete="${data.id}" class="btn btn-danger btn-lg ">Eliminar</button>
+          </div>
+        </div>
+        <hr class="mt-md-5 mb-md-5">
+      `
+    })
+  }
+
+  const writeModal = (data) => {
+    modalDisc.innerHTML = '';
+    modalDisc.innerHTML += `
+      <div class="modal-header">
+        <h5 class="text-center">Actualizar datos</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <form data-idModal="${data.id}" class=" mt-5">
+        <div class="mb-3">
+          <label class="form-label">Nombre album</label>
+          <input type="text" class="form-control" placeholder="Ingrese nombre album" name="name" value="${data.name}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Nombre musico</label>
+          <input type="text" class="form-control" placeholder="Ingrese nombre musico" name="artist" value="${data.artist}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Genero musical</label>
+          <input type="text" class="form-control" placeholder="Ingrese genero" name="genre" value="${data.genre}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Año lanzamineto</label>
+          <input type="text" class="form-control" placeholder="Ingrese año de lanzamineto" name="release_year" value="${data.release_year}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Sello discográfico</label>
+          <input type="text" class="form-control" placeholder="Ingrese sello discográfico" name="label" value="${data.label}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Precio</label>
+          <input type="text" class="form-control" placeholder="Ingrese precio" name="price" value="${data.price}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Url</label>
+          <input type="text" class="form-control" placeholder="Ingrese url" name="url" value="${data.url}">
+        </div>
+        <div class="align-items-end">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success">Actualizar album</button>
+        </div>
+      </form>
+      </div>
+      `
+  }
+  
+
+  if(!localStorage.getItem('token')){
+    window.location.href= "/login"
+  }
+
+  document.addEventListener("DOMContentLoaded", async() => {
+    try{  
+      const res = await fetch('/api/v1/discs/admin', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+      const data = await res.json()
+      if(!data.ok){
+        window.location.href= "login"
+      }
+      if(data.msg === "restricted user"){
+        window.location.href= "store"
+      }
+      console.log(data)
+      writeData(data.discs)
+      
+      document.addEventListener('click', async(e) => { 
+        if(e.target.dataset.update){
+          const idDiscs = parseInt(e.target.dataset.update)
+          console.log("update" + idDiscs)
+          let disc = data.discs.find(item => item.id === idDiscs)
+          writeModal(disc)
+          console.log(disc)
+        }
+        if(e.target.dataset.delete){
+          const idDiscs = parseInt(e.target.dataset.delete)
+          console.log("delete" + idDiscs)
+          const res = await fetch(`/api/v1/discs/${idDiscs}`, {
+            method: 'DELETE',
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              "Content-Type": "application/json",
+            }
+          })
+          const resData = await res.json()
+          if(resData.ok){
+            window.location.href= "adminAlbums"
+          }
+        }
+      })
+
+      document.addEventListener('submit', async(e) => {
+      e.preventDefault()
+      const formData = new FormData(e.target)
+      const objectFormData = Object.fromEntries(formData)
+      const jsonFormData = JSON.stringify(objectFormData) 
+      const idDiscs = parseInt(e.target.dataset.idmodal)
+      console.log(idDiscs)
+      console.log(jsonFormData)
+      const res = await fetch(`/api/v1/discs/${idDiscs}`, {
+        method: 'PUT',
+        body: jsonFormData, 
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          "Content-Type": "application/json",
+        }
+      })
+      const resData = await res.json()
+      if(resData.ok){
+            window.location.href= "adminAlbums"
+      }
+      })
+    } catch (error) {
+      console.log(error)
+    }
+     
+  })
+
+  
+
+
+</script>

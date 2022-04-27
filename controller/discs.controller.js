@@ -1,4 +1,4 @@
-const { getDiscsDB, getDiscDB, cretaDiscDB, updateDiscDB, deleteDiscDB, addDiscsUserDB } = require('../database/discs.querys')
+const { getDiscsDB, getDiscDB, cretaDiscDB, updateDiscDB, deleteDiscDB, addDiscsUserDB, getDiscsUserDB } = require('../database/discs.querys')
 
 const getDiscs = async (req, res) => {
   const rta = await getDiscsDB();
@@ -54,6 +54,7 @@ const updateDisc = async (req, res) => {
 
 const deleteDisc = async (req, res) => {
   const { id } = req.params
+  console.log(id)
   const rta = await deleteDiscDB(id);
   if(rta.msg === 'not found'){
     return res.status(404).json({ok: false, msg: rta.msg}); 
@@ -72,7 +73,19 @@ const addDiscsUser = async (req, res) => {
     return res.status(500).json({ok: false, msg: rta.msg}); 
   }
   return res.status(201).json({ok: true, discs: rta.discs})
-}
+};
+
+const getDiscsUser = async (req, res) => {
+  const  id  = req.id
+  const rta = await getDiscsUserDB(id);
+  if(rta.msg === 'not found'){
+    return res.status(404).json({ok: false, msg: rta.msg}); 
+  }
+  if(!rta.ok){
+    return res.status(500).json({ok: false, msg: rta.msg}); 
+  }
+  return res.json({ok: true, discs: rta.discs});
+};
 
 module.exports = {
   getDiscs,
@@ -80,5 +93,6 @@ module.exports = {
   cretaDisc,
   updateDisc,
   deleteDisc,
-  addDiscsUser
+  addDiscsUser,
+  getDiscsUser
 }

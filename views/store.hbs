@@ -82,29 +82,29 @@
 <script>
   
   const writeData = (data) => {
-        app.innerHTML = ''
-        data.forEach((data) => {
-          app.innerHTML += `
-            <div class="col-md-4">
-              <img src="${data.cover}" class="img-fluid rounded-start" alt="...">
-            </div>
-            <div class="col-md-4">
-              <div class="card-body mt-md-3">
-                <h5 class="card-title">${data.name}</h5>
-                  <p class="card-text"><b>${data.artist}</b></p>
-                <p class="card-text"><p><b>Sello:</b> ${data.label}<br><b>Lanzamineto:</b> ${data.release_year}<br><b>Genero:</b> ${data.genre}</p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card-body mt-md-5 text-end">
-                <h2 class="card-title mb-3">$${data.price}</h2>
-                <button data-id="${data.id}" class="btn btn-warning btn-lg mt-md-4">Comprar</button>
-              </div>
-            </div>
-            <hr class="mt-md-5 mb-md-5">
-          `
-        })
-    } 
+    app.innerHTML = ''
+    data.forEach((data) => {
+      app.innerHTML += `
+        <div class="col-md-4">
+          <img src="${data.cover}" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-4">
+          <div class="card-body mt-md-3">
+            <h5 class="card-title">${data.name}</h5>
+              <p class="card-text"><b>${data.artist}</b></p>
+            <p class="card-text"><p><b>Sello:</b> ${data.label}<br><b>Lanzamineto:</b> ${data.release_year}<br><b>Genero:</b> ${data.genre}</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card-body mt-md-5 text-end">
+            <h2 class="card-title mb-3">$${data.price}</h2>
+            <button data-id="${data.id}" class="btn btn-warning btn-lg mt-md-4">Comprar</button>
+          </div>
+        </div>
+        <hr class="mt-md-5 mb-md-5">
+      `
+    })
+  } 
 
   if(!localStorage.getItem('token')){
     window.location.href= "/login"
@@ -118,8 +118,8 @@
       })
       const data = await res.json()
       if(!data.ok){
-            window.location.href= "login"
-        }
+        window.location.href= "login"
+      }
       writeData(data.discs)
 
       document.addEventListener('click', async(e) => { 
@@ -133,6 +133,9 @@
             body: JSON.stringify({discs_id : e.target.dataset.id})
           })
           const data = await res.json()
+          if(!data.ok){
+            window.location.href= "login"
+          }
           if(data.ok){
             window.location.href= "/myCollection"
           }
