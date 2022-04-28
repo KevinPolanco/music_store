@@ -5,10 +5,10 @@ const tokenValidator = require('../middlewares/tokenValidator')
 const { createUserSchema , loginUserSchema} = require('../schemas/users.schemas')
 const router = express.Router();
 
-router.get('/', getUsers);
+router.get('/', tokenValidator, getUsers);
 router.post('/login', validatorSchema(loginUserSchema, 'body'), loginUser)
-router.get('/:id', getUser);
+router.get('/:id', tokenValidator, getUser);
 router.post('/', validatorSchema(createUserSchema, 'body'), createUsers);
-router.put('/:id', updateUser);
-router.delete('/:id', deleteUser);
+router.put('/:id', tokenValidator, updateUser);
+router.delete('/:id', tokenValidator, deleteUser);
 module.exports = router

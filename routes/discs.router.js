@@ -6,14 +6,14 @@ const { createDiscsSchema, updateDiscsSchema}  = require('../schemas/discs.schem
 const { validatorSchema } = require('../middlewares/validatorSchema')
 const router = express.Router();
 
-router.get('/', tokenValidator, getDiscs)
+router.get('/', getDiscs)
 router.get('/admin', tokenValidator, typeUserValidator, getDiscs)
 router.get('/discsUser',tokenValidator, getDiscsUser);
 router.post('/addDics',tokenValidator, addDiscsUser)
-router.get('/:id', getDisc)
-router.post('/', validatorSchema(createDiscsSchema, 'body'), cretaDisc)
-router.put('/:id', validatorSchema(updateDiscsSchema, 'body'), updateDisc)
-router.delete('/:id', tokenValidator, deleteDisc)
+router.get('/:id', tokenValidator, typeUserValidator, getDisc)
+router.post('/', tokenValidator, typeUserValidator, validatorSchema(createDiscsSchema, 'body'), cretaDisc)
+router.put('/:id', tokenValidator, typeUserValidator, validatorSchema(updateDiscsSchema, 'body'), updateDisc)
+router.delete('/:id', tokenValidator, typeUserValidator, deleteDisc)
 
 module.exports = router
 

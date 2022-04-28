@@ -227,7 +227,7 @@
         window.location.href= "store"
       }
       console.log(data)
-      writeData(data.discs)
+      writeData(data.discs.reverse())
       
       document.addEventListener('click', async(e) => { 
         if(e.target.dataset.update){

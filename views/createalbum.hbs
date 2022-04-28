@@ -82,7 +82,10 @@
       const res = await fetch('/api/v1/discs', {
           method: 'post', 
           body: jsonFormData, 
-          headers:{'Content-Type':"application/json"}
+          headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+              "Content-Type": "application/json",
+            }
         })
       const data = await res.json()
       console.log(data)
