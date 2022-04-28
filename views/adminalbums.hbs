@@ -271,8 +271,11 @@
         }
       })
       const resData = await res.json()
+      if(!resData.ok){
+        console.log(resData.msg)
+      }
       if(resData.ok){
-            window.location.href= "adminAlbums"
+        window.location.href= "adminAlbums"
       }
       })
     } catch (error) {
