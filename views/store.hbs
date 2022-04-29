@@ -1,80 +1,8 @@
-<div class="d-flex justify-content-center ">
+
+<div class="d-flex justify-content-center mt-5">
   
-  <div id="app" class="container row row-cols-1 minHeight">
-
-    
-    <div class="col-md-4">
-      <img src="http://birkajazz.se/graphics2/morganLeeWay.jpg" class="img-fluid rounded-start" alt="...">
-    </div>
-    <div class="col-md-4">
-      <div class="card-body mt-md-3">
-        <h5 class="card-title">Leeway</h5>
-          <p class="card-text"><b>Lee Morgan</b></p>
-        <p class="card-text"><p><b>Sello:</b> Blue Note<br><b>Lanzamineto:</b> 1961<br><b>Genero:</b> Jazz</p>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card-body mt-md-5 text-end">
-        <h2 class="card-title mb-3">$12.999</h2>
-        <button href="#" class="btn btn-warning btn-lg mt-md-4">Comprar</button>
-      </div>
-    </div>
-    <hr class="mt-md-5 mb-md-5">
-
-    <div class="col-md-4">
-      <img src="http://birkajazz.se/graphics2/morganLeeWay.jpg" class="img-fluid rounded-start" alt="...">
-    </div>
-    <div class="col-md-4">
-      <div class="card-body mt-md-3">
-        <h5 class="card-title">Leeway</h5>
-          <p class="card-text"><b>Lee Morgan</b></p>
-        <p class="card-text"><p><b>Sello:</b> Blue Note<br><b>Lanzamineto:</b> 1961<br><b>Genero:</b> Jazz</p>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card-body mt-md-5 text-end">
-        <h2 class="card-title mb-3">$12.999</h2>
-        <button href="#" class="btn btn-warning btn-lg mt-md-4">Comprar</button>
-      </div>
-    </div>
-    <hr class="mt-md-5 mb-md-5">
-
-     <div class="col-md-4">
-      <img src="http://birkajazz.se/graphics2/morganLeeWay.jpg" class="img-fluid rounded-start" alt="...">
-    </div>
-    <div class="col-md-4">
-      <div class="card-body mt-md-3">
-        <h5 class="card-title">Leeway</h5>
-          <p class="card-text"><b>Lee Morgan</b></p>
-        <p class="card-text"><p><b>Sello:</b> Blue Note<br><b>Lanzamineto:</b> 1961<br><b>Genero:</b> Jazz</p>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card-body mt-md-5 text-end">
-        <h2 class="card-title mb-3">$12.999</h2>
-        <button href="#" class="btn btn-warning btn-lg mt-md-4">Comprar</button>
-      </div>
-    </div>
-    <hr class="mt-md-5 mb-md-5">
-
-     <div class="col-md-4">
-      <img src="http://birkajazz.se/graphics2/morganLeeWay.jpg" class="img-fluid rounded-start" alt="...">
-    </div>
-    <div class="col-md-4">
-      <div class="card-body mt-md-3">
-        <h5 class="card-title">Leeway</h5>
-          <p class="card-text"><b>Lee Morgan</b></p>
-        <p class="card-text"><p><b>Sello:</b> Blue Note<br><b>Lanzamineto:</b> 1961<br><b>Genero:</b> Jazz</p>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card-body mt-md-5 text-end">
-        <h2 class="card-title mb-3">$12.999</h2>
-        <button href="#" class="btn btn-warning btn-lg mt-md-4">Comprar</button>
-      </div>
-    </div>
-    <hr class="mt-md-5 mb-md-5">
-  
+  <div id="app" class="container row row-cols-1 minHeight mt-5">
+    <div style="height:200vh"></div>
   </div>
   
 </div>
@@ -85,23 +13,29 @@
     app.innerHTML = ''
     data.forEach((data) => {
       app.innerHTML += `
-        <div class="col-md-4">
-          <img src="${data.cover}" class="img-fluid rounded-start" alt="...">
-        </div>
-        <div class="col-md-4">
-          <div class="card-body mt-md-3">
-            <h5 class="card-title">${data.name}</h5>
-              <p class="card-text"><b>${data.artist}</b></p>
-            <p class="card-text"><p><b>Sello:</b> ${data.label}<br><b>Lanzamineto:</b> ${data.release_year}<br><b>Genero:</b> ${data.genre}</p>
+        <div class="card border-white w-100 mb-3" data-aos="fade-up" data-aos-duration="1500">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <img src="${data.cover}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-4 align-self-center">
+              <div class="card-body">
+                <h5 class="card-title">${data.name}</h5>
+                <p class="card-text"><b>${data.artist}</b></p>
+                <p class="card-text"><p><b>Sello:</b>  ${data.label}<br><b>Lanzamineto:</b> ${data.release_year}<br><b>Genero:</b> ${data.genre}</p>
+              </div>
+            </div>
+            <div class="col-md-4 align-self-center">
+              <div class="card-body text-end">
+                <h2 class="card-title mb-3">$${data.price}</h2>
+                <button data-id="${data.id}" class="btn btn-warning btn-lg">Comprar</button>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card-body mt-md-5 text-end">
-            <h2 class="card-title mb-3">$${data.price}</h2>
-            <button data-id="${data.id}" class="btn btn-warning btn-lg mt-md-4">Comprar</button>
-          </div>
+        <div>
+          <hr class="mt-md-5 mb-md-5 " data-aos="fade-up" data-aos-duration="1500">
         </div>
-        <hr class="mt-md-5 mb-md-5">
       `
     })
   } 
@@ -120,7 +54,9 @@
       if(!data.ok){
         window.location.href= "login"
       }
+      
       writeData(data.discs)
+      
 
       document.addEventListener('click', async(e) => { 
         if(e.target.dataset.id){
@@ -146,4 +82,5 @@
       console.log(error)
     }
   })
+  
 </script>
