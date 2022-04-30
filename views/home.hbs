@@ -71,13 +71,13 @@
       const data = await res.json()
 
       let labelBlue = data.discs.filter(item => item.label === "Blue Note")
-      labelBlue = labelBlue.slice(labelBlue.length-8)
+      labelBlue = labelBlue.slice(labelBlue.length-8).reverse()
       
       let labelColumbia = data.discs.filter(item => item.label === "Columbia")
-      labelColumbia = labelColumbia.slice(labelColumbia.length-8)
+      labelColumbia = labelColumbia.slice(labelColumbia.length-8).reverse()
       
       let labelImpulse = data.discs.filter(item => item.label === "Impulse!")
-      labelImpulse = labelImpulse.slice(labelImpulse.length-8)
+      labelImpulse = labelImpulse.slice(labelImpulse.length-8).reverse()
       
       
       writeData(labelBlue, app1, "card")

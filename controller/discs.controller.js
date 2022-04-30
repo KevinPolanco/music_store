@@ -1,7 +1,8 @@
 const { getDiscsDB, getDiscDB, cretaDiscDB, updateDiscDB, deleteDiscDB, addDiscsUserDB, getDiscsUserDB } = require('../database/discs.querys')
 
 const getDiscs = async (req, res) => {
-  const rta = await getDiscsDB();
+  const{ limit, offset } = req.query;
+  const rta = await getDiscsDB(limit, offset);
   if(!rta.ok){
      return res.status(500).json({ok: false, msg: rta.msg}); 
   };

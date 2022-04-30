@@ -1,10 +1,21 @@
 const pool = require('../libs/postgres');
 
 
-const getDiscsDB = async () => {
+const getDiscsDB = async (limit,offset) => {
+  
   const client = await pool.connect()
+  let query = []
+  if(!limit && !offset) {
+     query = { text:'SELECT * FROM discs'};
+  }
+  if(limit && offset) {
+    query = { 
+      text:'SELECT * FROM discs limit $1 offset $2',
+      values: [limit, offset]
+      };
+  }
   try {
-      const rta = await client.query('SELECT * FROM discs')
+      const rta = await client.query(query)
       return {
         ok: true,
         discs: rta.rows

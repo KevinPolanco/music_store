@@ -5,6 +5,10 @@
   </div>
   
 </div>
+<div class="d-flex justify-content-center" data-aos="fade-up" data-aos-duration="1500">
+    <button id="previous" type="button" data-previous="previous" class="btn btn-outline-warning m-2 disabled"><</button>
+    <button id="next" type="button" data-next="next" class="btn btn-outline-warning m-2">></button>
+</div>
 
 {{!-- modal --}}
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -59,6 +63,9 @@
 </div>
 
 <script>
+  let limit = 20;
+  let offset = 0;
+  let golabalDiscs = []
   const writeData = (data) => {
     app.innerHTML = ''
     data.forEach((data) => {
@@ -142,7 +149,7 @@
 
   document.addEventListener("DOMContentLoaded", async() => {
     try{  
-      const res = await fetch('/api/v1/discs/admin', {
+      const res = await fetch(`/api/v1/discs?limit=${limit}&offset=${offset}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -154,13 +161,50 @@
       if(data.msg === "restricted user"){
         window.location.href= "store"
       }
-      console.log(data)
-      writeData(data.discs.reverse())
+      golabalDiscs.push(...data.discs)
+      
+      writeData(data.discs)
       
       document.addEventListener('click', async(e) => { 
+        
+         if(e.target.dataset.next){  
+          window.scrollTo(0,0)         
+          offset += limit;
+          const res = await fetch(`/api/v1/discs?limit=${limit}&offset=${offset}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+          })
+          const data = await res.json()
+
+          if(offset > 0) previous.classList.remove("disabled")
+          if(data.discs.length < limit) next.classList.add("disabled")
+          if(!data.ok) window.location.href= "login"
+          golabalDiscs.push(...data.discs)
+          writeData(data.discs)
+        }
+
+        
+        if(e.target.dataset.previous){
+          window.scrollTo(0,0)     
+          offset -= limit;
+          const res = await fetch(`/api/v1/discs?limit=${limit}&offset=${offset}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+          })
+          const data = await res.json()
+
+          if(offset == 0) previous.classList.add("disabled")
+          if(data.discs.length == limit) next.classList.remove("disabled")
+          if(!data.ok) window.location.href= "login"
+          golabalDiscs.push(...data.discs)
+          writeData(data.discs)
+        }
+
         if(e.target.dataset.update){
           const idDiscs = parseInt(e.target.dataset.update)
-          let disc = data.discs.find(item => item.id === idDiscs)
+          const disc = golabalDiscs.find(item => item.id === idDiscs)
           writeModal(disc)
           console.log(disc)
         }
@@ -174,6 +218,7 @@
             }
           })
           const resData = await res.json()
+          
           if(resData.ok){
             window.location.href= "adminAlbums"
           }
@@ -181,36 +226,36 @@
       })
 
       document.addEventListener('submit', async(e) => {
-      e.preventDefault()
-      const formData = new FormData(e.target)
-      const objectFormData = Object.fromEntries(formData)
-      const jsonFormData = JSON.stringify(objectFormData) 
-      const idDiscs = parseInt(e.target.dataset.idmodal)
-      console.log(idDiscs)
-      console.log(jsonFormData)
-      const res = await fetch(`/api/v1/discs/${idDiscs}`, {
-        method: 'PUT',
-        body: jsonFormData, 
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          "Content-Type": "application/json",
+        e.preventDefault()
+        const formData = new FormData(e.target)
+        const objectFormData = Object.fromEntries(formData)
+        const jsonFormData = JSON.stringify(objectFormData) 
+        const idDiscs = parseInt(e.target.dataset.idmodal)
+        console.log(idDiscs)
+        console.log(jsonFormData)
+        const res = await fetch(`/api/v1/discs/${idDiscs}`, {
+          method: 'PUT',
+          body: jsonFormData, 
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            "Content-Type": "application/json",
+          }
+        })
+        const resData = await res.json()
+        if(resData.msg === 'token does not exist' || 'Invalid format use Bearer' || 'invalid format' || "invalid token" || "expired token"){
+          window.location.href= "login"
         }
-      })
-      const resData = await res.json()
-      if(!resData.ok){
-        console.log(resData.msg)
-      }
-      if(resData.ok){
-        window.location.href= "adminAlbums"
-      }
+        if(!resData.ok){
+          console.log(resData.msg)
+        }
+        if(resData.ok){
+          window.location.href= "adminAlbums"
+        }
       })
     } catch (error) {
       console.log(error)
     }
      
   })
-
-  
-
 
 </script>
