@@ -12,7 +12,7 @@ const getDiscsDB = async (limit,offset) => {
     query = { 
       text:'SELECT * FROM discs limit $1 offset $2',
       values: [limit, offset]
-      };
+    };
   }
   try {
       const rta = await client.query(query)

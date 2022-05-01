@@ -63,6 +63,7 @@
 </div>
 
 <script>
+
   let limit = 20;
   let offset = 0;
   let golabalDiscs = []
@@ -167,7 +168,7 @@
       
       document.addEventListener('click', async(e) => { 
         
-         if(e.target.dataset.next){  
+        if(e.target.dataset.next){  
           window.scrollTo(0,0)         
           offset += limit;
           const res = await fetch(`/api/v1/discs?limit=${limit}&offset=${offset}`, {
@@ -184,7 +185,6 @@
           writeData(data.discs)
         }
 
-        
         if(e.target.dataset.previous){
           window.scrollTo(0,0)     
           offset -= limit;
@@ -208,6 +208,7 @@
           writeModal(disc)
           console.log(disc)
         }
+
         if(e.target.dataset.delete){
           const idDiscs = parseInt(e.target.dataset.delete)
           const res = await fetch(`/api/v1/discs/${idDiscs}`, {

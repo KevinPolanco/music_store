@@ -1,5 +1,18 @@
+<div class="container pt-5 mt-5 pb-2">
+  <form class="row align-items-center mx-5">
+    <div class="col-10">
+      <input id="text" type="text" class="form-control">
+    </div>
+    <button data-search="search" class="btn btn-warning btn-sm col-2">Buscar</button>
+  </form>
+</div>
+<div id="textMsg" class="text-center">
 
-<div class="d-flex justify-content-center mt-5">
+</div>
+
+
+
+<div class="d-flex justify-content-center">
   
   <div id="app" class="container row row-cols-1 minHeight mt-5">
     <div style="height:200vh"></div>
@@ -8,18 +21,20 @@
 </div>
 <div class="d-flex justify-content-center" data-aos="fade-up" data-aos-duration="1500">
     <button id="previous" type="button" data-previous="previous" class="btn btn-outline-warning m-2 disabled"><</button>
+    <label id="numberPage"class="btn m-2 disabled">1</label>
     <button id="next" type="button" data-next="next" class="btn btn-outline-warning m-2">></button>
 </div>
 
 <script>
 
-  let limit = 20;
-  let offset = 0;
- 
-  const writeData = (data) => {
-    app.innerHTML = ''
-    data.forEach((data) => {
-      app.innerHTML += `
+let limit = 20;
+let offset = 0;
+let currentPage = 1;
+
+const writeData = (data) => {
+  app.innerHTML = "";
+  data.forEach((data) => {
+    app.innerHTML += `
         <div class="card border-white w-100 mb-3" data-aos="fade-up" data-aos-duration="1500">
           <div class="row g-0">
             <div class="col-md-4">
@@ -43,88 +58,130 @@
         <div>
           <hr class="mt-md-5 mb-md-5 " data-aos="fade-up" data-aos-duration="1500">
         </div>
-      `
-    })
-  } 
+      `;
+  });
+};
 
-  if(!localStorage.getItem('token')){
-    window.location.href= "/login"
-  }
-  document.addEventListener("DOMContentLoaded", async() => {
-    
+if (!localStorage.getItem("token")) {
+  window.location.href = "/login";
+}
+document.addEventListener("DOMContentLoaded", async () => {
     try {
       const res = await fetch(`/api/v1/discs?limit=${limit}&offset=${offset}`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-      })
-      const data = await res.json()
-      if(!data.ok){
-        window.location.href= "login"
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const data = await res.json();
+
+      if (!data.ok) {
+        window.location.href = "login";
       }
-      
-      writeData(data.discs)
-      
-
-      document.addEventListener('click', async(e) => { 
-        
-        if(e.target.dataset.id){
-          const res = await fetch('/api/v1/discs/addDics', {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({discs_id : e.target.dataset.id})
-          })
-          const data = await res.json()
-          if(!data.ok){
-            window.location.href= "login"
-          }
-          if(data.ok){
-            window.location.href= "/myCollection"
-          }
-        }
-
-        if(e.target.dataset.next){  
-          window.scrollTo(0,0)         
-          offset += limit;
-          const res = await fetch(`/api/v1/discs?limit=${limit}&offset=${offset}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-          })
-          const data = await res.json()
-
-          if(offset > 0) previous.classList.remove("disabled")
-          if(data.discs.length < limit) next.classList.add("disabled")
-          if(!data.ok) window.location.href= "login"
-          
-          writeData(data.discs)
-        }
-
-        
-        if(e.target.dataset.previous){
-          window.scrollTo(0,0)     
-          offset -= limit;
-          const res = await fetch(`/api/v1/discs?limit=${limit}&offset=${offset}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-          })
-          const data = await res.json()
-
-          if(offset == 0) previous.classList.add("disabled")
-          if(data.discs.length == limit) next.classList.remove("disabled")
-          if(!data.ok) window.location.href= "login"
-          
-          writeData(data.discs)
-        }
-          
-      })
-    } catch (error){
-      console.log(error)
+      console.log(data.discs);
+      writeData(data.discs);
+      console.log("sñadkjasñldkhsañlkh")
+    } catch (error) {
+      console.log(error);
     }
-  })
+  }
+);
+
+document.addEventListener("click", async (e) => {
+
+  try{
+    
+    if (e.target.dataset.id) {
+      const res = await fetch("/api/v1/discs/addDics", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ discs_id: e.target.dataset.id }),
+      });
+      const data = await res.json();
+      if (!data.ok) {
+        window.location.href = "login";
+      }
+      if (data.ok) {
+        window.location.href = "/myCollection";
+      }
+    }
+
+    if (e.target.dataset.next) {
+      window.scrollTo(0, 0);
+      offset += limit;
+      const res = await fetch(
+        `/api/v1/discs?limit=${limit}&offset=${offset}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const data = await res.json();
+      currentPage ++;
+      numberPage.innerHTML = currentPage;
+      if (offset > 0) previous.classList.remove("disabled");
+      if (data.discs.length < limit) next.classList.add("disabled");
+      if (!data.ok) window.location.href = "login";
+
+      writeData(data.discs);
+    }
+
+    if (e.target.dataset.previous) {
+      window.scrollTo(0, 0);
+      offset -= limit;
+      const res = await fetch(
+        `/api/v1/discs?limit=${limit}&offset=${offset}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const data = await res.json();
+      currentPage --;
+      numberPage.innerHTML = currentPage;
+      if (offset == 0) previous.classList.add("disabled");
+      if (data.discs.length == limit) next.classList.remove("disabled");
+      if (!data.ok) window.location.href = "login";
+
+      writeData(data.discs);
+    }
+
+    if (e.target.dataset.search) {
+      e.preventDefault()
+      textMsg.innerHTML = "";
+      const text = document.getElementById("text").value.toLowerCase();
+      const res = await fetch(`/api/v1/discs`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const data = await res.json();
+      const searchRes = await data.discs.filter(
+        (item) =>
+          item.label.toLowerCase() === text ||
+          item.artist.toLowerCase() === text ||
+          item.name.toLowerCase() === text ||
+          item.genre.toLowerCase() == text ||
+          item.release_year == text ||
+          item.price == text
+      );
+      if (searchRes.length === 0) {
+        textMsg.innerHTML += `<p>No se encuentran ${text}</p>`;
+      }
+      console.log(searchRes);
+      writeData(searchRes);
+      console.log("fin ifs")
+    }
+    
+  } catch (error){
+    console.log( "click" + error)
+  }
+});
+
+
   
 </script>

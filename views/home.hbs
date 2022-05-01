@@ -58,9 +58,6 @@
     })
   } 
 
-  if(!localStorage.getItem('token')){
-    window.location.href= "/login"
-  }
   document.addEventListener("DOMContentLoaded", async() => {
     try {
       const res = await fetch('/api/v1/discs', {
@@ -85,7 +82,7 @@
       writeData(labelColumbia, app3, "card")
       
       
-      
+
     } catch (error){
       console.log(error)
     }
