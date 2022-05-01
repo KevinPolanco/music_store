@@ -6,19 +6,10 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/store">Tienda</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/myCollection">Mis discos</a>
-        </li>
-          </ul>
-        </li>
-      </ul>
+      <ul id="btnNavBar" class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
       <div>
-      <div id="btnBar"></div>
-    </div>
+        <div id="linksNavBar"></div>
+      </div>
   </div>
 </nav>
 
@@ -27,8 +18,18 @@
      try {
       
       if(localStorage.getItem('token')){
-        btnBar.innerHTML = `
+        btnNavBar.innerHTML = `
           <button id="logOut" class="btn btn-outline-danger btn-sm me-2">Cerrar sesión</button>
+        `;
+        linksNavBar.innerHTML = `
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/store">Tienda</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/myCollection">Mis discos</a>
+          </li>
+            </ul>
+          </li>
         `;
         const logOut = document.getElementById('logOut')
         logOut.addEventListener('click', async (e) => {
@@ -37,10 +38,11 @@
           window.location.href= "/login"
         })
       } else {
-         btnBar.innerHTML = `
+         btnNavBar.innerHTML = `
           <a href="/login"><button class="btn btn-outline-warning btn-sm me-2">Login</button></a>
           <a href="/register"><button class="btn btn-success me-2">Registrate</button></a>
-        `
+        `;
+        linksNavBar.innerHTML = "";
       }
       
     } catch (error) {
