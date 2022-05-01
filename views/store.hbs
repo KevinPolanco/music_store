@@ -79,7 +79,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
       console.log(data.discs);
       writeData(data.discs);
-      console.log("sñadkjasñldkhsañlkh")
     } catch (error) {
       console.log(error);
     }
@@ -152,8 +151,14 @@ document.addEventListener("click", async (e) => {
 
     if (e.target.dataset.search) {
       e.preventDefault()
+      
       textMsg.innerHTML = "";
-      const text = document.getElementById("text").value.toLowerCase();
+      const text = document.getElementById("text").value.toLowerCase().trim();
+      
+      if(!text || !(text.length > 0)){ 
+        return;
+      }
+
       const res = await fetch(`/api/v1/discs`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -162,12 +167,12 @@ document.addEventListener("click", async (e) => {
       const data = await res.json();
       const searchRes = await data.discs.filter(
         (item) =>
-          item.label.toLowerCase() === text ||
-          item.artist.toLowerCase() === text ||
-          item.name.toLowerCase() === text ||
-          item.genre.toLowerCase() == text ||
-          item.release_year == text ||
-          item.price == text
+          (item.label.toLowerCase().includes(text)  ||
+          item.artist.toLowerCase().includes(text) ||
+          item.name.toLowerCase().includes(text)   ||
+          item.genre.toLowerCase().includes(text)  ||
+          item.release_year.toString().includes(text)) &&
+          text.length>0
       );
       if (searchRes.length === 0) {
         textMsg.innerHTML += `<p>No se encuentran ${text}</p>`;
