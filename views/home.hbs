@@ -60,7 +60,7 @@
 
   document.addEventListener("DOMContentLoaded", async() => {
     try {
-      const res = await fetch('/api/v1/discs', {
+      const res = await fetch('/api/v1/discs/home', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
