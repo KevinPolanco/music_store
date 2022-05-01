@@ -16,18 +16,39 @@
           </ul>
         </li>
       </ul>
-      <button id="loguot" class="btn btn-outline-danger btn-sm me-2">Cerrar sesión</button>
-      <a href="/login"><button class="btn btn-outline-warning btn-sm me-2">Login</button></a>
-      <a href="/register"><button class="btn btn-success me-2">Registrate</button></a>
+      <div>
+      <div id="btnBar"></div>
     </div>
   </div>
 </nav>
 
 <script>
-  const loguot = document.getElementById('loguot')
-  loguot.addEventListener('click', async (e) => {
-    e.preventDefault();
-    localStorage.clear();
-    window.location.href= "/login"
-  })
+  const checkToken = async() => {
+     try {
+      
+      if(localStorage.getItem('token')){
+        btnBar.innerHTML = `
+          <button id="logOut" class="btn btn-outline-danger btn-sm me-2">Cerrar sesión</button>
+        `;
+        const logOut = document.getElementById('logOut')
+        logOut.addEventListener('click', async (e) => {
+          e.preventDefault();
+          localStorage.clear();
+          window.location.href= "/login"
+        })
+      } else {
+         btnBar.innerHTML = `
+          <a href="/login"><button class="btn btn-outline-warning btn-sm me-2">Login</button></a>
+          <a href="/register"><button class="btn btn-success me-2">Registrate</button></a>
+        `
+      }
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  
+  
+ checkToken();
 </script>
