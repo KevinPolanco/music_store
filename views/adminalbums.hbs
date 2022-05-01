@@ -1,10 +1,7 @@
 <div class="d-flex justify-content-center minHeight mt-5">
-  
-  <div id="app"class="container row row-cols-1 mt-5">
-    
-  </div>
-  
+  <div id="app"class="container row row-cols-1 mt-5">  </div>
 </div>
+
 <div class="d-flex justify-content-center" data-aos="fade-up" data-aos-duration="1500">
     <button id="previous" type="button" data-previous="previous" class="btn btn-outline-warning m-2 disabled"><</button>
     <button id="next" type="button" data-next="next" class="btn btn-outline-warning m-2">></button>
@@ -14,47 +11,7 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div id="modalDisc" class="modal-content">
-      <div class="modal-header">
-        <h5 class="text-center">Actualizar datos</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-      <form class=" mt-5">
-        <div class="mb-3">
-          <label class="form-label">Nombre album</label>
-          <input type="text" class="form-control" placeholder="Ingrese nombre album" name="name" value="Leeway">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Nombre musico</label>
-          <input type="text" class="form-control" placeholder="Ingrese nombre musico" name="artist" value="Lee Morgan">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Genero musical</label>
-          <input type="text" class="form-control" placeholder="Ingrese genero" name="genre" value="Jazz">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Año lanzamineto</label>
-          <input type="text" class="form-control" placeholder="Ingrese año de lanzamineto" name="release_year" value="1961">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Sello discográfico</label>
-          <input type="text" class="form-control" placeholder="Ingrese sello discográfico" name="label" value="Blue Note">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Precio</label>
-          <input type="text" class="form-control" placeholder="Ingrese precio" name="price" value="12.999">
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Url</label>
-          <input type="text" class="form-control" placeholder="Ingrese url" name="url" value="">
-        </div>
-        
-      </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success">Actualizar album</button>
-      </div>
+      
     </div>
   </div>
 </div>
@@ -136,16 +93,17 @@
           <label class="form-label">Url</label>
           <input type="text" class="form-control" placeholder="Ingrese url" name="url" value="${data.url}">
         </div>
+        <div id="msg" class="text-center my-2"></div>
           <button type="button" class="btn btn-secondary mt-4" data-bs-dismiss="modal">Cerrar</button>
           <button type="submit" class="btn btn-success mt-4">Actualizar album</button>
       </form>
       </div>
       `
   }
-  
 
-  if(!localStorage.getItem('token')){
-    window.location.href= "/login"
+  const writeMsg = (data) => {
+    msg.innerHTML = '';
+    msg.innerHTML = `<p class="mb-2 mtb-5" style="color: red;">${data.msg}</p>`;
   }
 
   document.addEventListener("DOMContentLoaded", async() => {
@@ -156,6 +114,17 @@
         }
       })
       const data = await res.json()
+      console.log(data)
+      if(
+          data.msg === 'token does not exist' || 
+          data.msg === 'Invalid format use Bearer' || 
+          data.msg === 'invalid format' || 
+          data.msg === "invalid token" || 
+          data.msg === "expired token")
+          {
+            window.location.href= "login"
+        }
+      
       if(!data.ok){
         window.location.href= "login"
       }
@@ -165,7 +134,7 @@
       golabalDiscs.push(...data.discs)
       
       writeData(data.discs)
-      
+
       document.addEventListener('click', async(e) => { 
         
         if(e.target.dataset.next){  
@@ -243,12 +212,22 @@
           }
         })
         const resData = await res.json()
-        if(resData.msg === 'token does not exist' || 'Invalid format use Bearer' || 'invalid format' || "invalid token" || "expired token"){
-          window.location.href= "login"
+        console.log(resData)
+        
+        if(
+          resData.msg === 'token does not exist' || 
+          resData.msg === 'Invalid format use Bearer' || 
+          resData.msg === 'invalid format' || 
+          resData.msg === "invalid token" || 
+          resData.msg === "expired token")
+          {
+            window.location.href= "login"
         }
+
         if(!resData.ok){
-          console.log(resData.msg)
+          writeMsg(resData)
         }
+
         if(resData.ok){
           window.location.href= "adminAlbums"
         }
