@@ -1,3 +1,5 @@
+{{> SearchBar}}
+
 <div class="d-flex justify-content-center minHeight mt-5">
   <div id="app"class="container row row-cols-1 mt-5">  </div>
 </div>
@@ -35,7 +37,7 @@
             </div>
             <div class="col-md-4 align-self-center">
               <div class="card-body">
-                <h5 class="card-title">${data.name}</h5>
+                <h5 class="card-title"><b>${data.name}</b></h5>
                 <p class="card-text"><b>${data.artist}</b></p>
                 <p class="card-text"><p><b>Sello:</b>  ${data.label}<br><b>Lanzamineto:</b> ${data.release_year}<br><b>Genero:</b> ${data.genre}</p>
               </div>
@@ -175,7 +177,6 @@
           const idDiscs = parseInt(e.target.dataset.update)
           const disc = golabalDiscs.find(item => item.id === idDiscs)
           writeModal(disc)
-          console.log(disc)
         }
 
         if(e.target.dataset.delete){

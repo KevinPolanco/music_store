@@ -1,16 +1,13 @@
+
 <div class="d-flex justify-content-center mt-5">
-  
-  <div id="app" class="container row row-cols-1 minHeight mt-5">
-    
-  </div>
-  
+  <div id="app" class="container row row-cols-1 minHeight mt-5"> </div>
 </div>
 
 <script>
   const writeData = (data) => {
         app.innerHTML = ''
         data.forEach((data) => {
-          const wikiLinkartist = "https://en.wikipedia.org/wiki/"+data.artist.replaceAll(' ', '_');
+          const wikiLinkArtist = "https://en.wikipedia.org/wiki/"+data.artist.replaceAll(' ', '_');
           app.innerHTML += `
             <div class="card border-white w-100 mb-3" data-aos="fade-up" data-aos-duration="1500">
               <div class="row">
@@ -21,7 +18,7 @@
                   <div class="card-body text-end">
                     <div class="text-end card-title">
                       <h5 class="card-title">${data.name}</h5>
-                      <p class="card-text"><a href="${wikiLinkartist}"target="_blank">${data.artist}</a></p>
+                      <p class="card-text"><a href="${wikiLinkArtist}"target="_blank">${data.artist}</a></p>
                       <iframe src="https://open.spotify.com/embed/album/${data.url}" width="100%" height="75" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>  
                     </div>
                   </div>
@@ -53,7 +50,7 @@
       }
       writeData(data.discs)
     } catch (error) {
-
+      console.log(error)
     }
 
   })

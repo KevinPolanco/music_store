@@ -1,0 +1,48 @@
+<div class="container pt-5 mt-5 pb-2">
+  <form class="row align-items-center mx-5">
+    <div class="col-10">
+      <input id="text" type="text" class="form-control">
+    </div>
+    <button data-search="search" class="btn btn-warning btn-sm col-2">Buscar</button>
+  </form>
+</div>
+<div id="textMsg" class="text-center"></div>
+
+<script>
+document.addEventListener("click", async (e) => {
+
+  if (e.target.dataset.search) {
+      e.preventDefault()
+      textMsg.innerHTML = "";
+      const text = document.getElementById("text").value.toLowerCase().trim();
+      
+      if(!text || !(text.length > 0)){ 
+        textMsg.innerHTML += `<p data-aos="zoom-out" data-aos-duration="500">Ingresa texto</p>`;
+        return;
+      }
+
+      const res = await fetch(`/api/v1/discs`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const data = await res.json();
+      const searchRes = await data.discs.filter(
+        (item) =>
+          item.label.toLowerCase().includes(text)  ||
+          item.artist.toLowerCase().includes(text) ||
+          item.name.toLowerCase().includes(text)   ||
+          item.genre.toLowerCase().includes(text)  ||
+          item.release_year.toString().includes(text)
+      );
+  
+      if (searchRes.length === 0) {
+        textMsg.innerHTML += `<p data-aos="zoom-out" data-aos-duration="500">No se encuentran "${text}"</p>`;
+      }
+
+      writeData(searchRes);
+    }
+
+})
+
+</script>
