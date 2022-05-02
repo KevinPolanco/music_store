@@ -34,6 +34,8 @@ let currentPage = 1;
 const writeData = (data) => {
   app.innerHTML = "";
   data.forEach((data) => {
+    const wikiLinkArtist = "https://en.wikipedia.org/wiki/"+data.artist.replaceAll(' ', '_');
+    const linkLabel = getLinkLabel(data.label);
     app.innerHTML += `
         <div class="card border-white w-100 mb-3" data-aos="fade-up" data-aos-duration="1500">
           <div class="row g-0">
@@ -43,8 +45,8 @@ const writeData = (data) => {
             <div class="col-md-4 align-self-center">
               <div class="card-body">
                 <h5 class="card-title">${data.name}</h5>
-                <p class="card-text"><b>${data.artist}</b></p>
-                <p class="card-text"><p><b>Sello:</b>  ${data.label}<br><b>Lanzamineto:</b> ${data.release_year}<br><b>Genero:</b> ${data.genre}</p>
+                <p class="card-text"><a href="${wikiLinkArtist}"target="_blank"><b>${data.artist}</b></a></p>
+                <p class="card-text"><p><b>Sello:</b> <a href="${linkLabel}"target="_blank">${data.label}</a><br><b>Lanzamineto:</b> ${data.release_year}<br><b>Genero:</b> ${data.genre}</p>
               </div>
             </div>
             <div class="col-md-4 align-self-center">

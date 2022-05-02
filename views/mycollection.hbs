@@ -10,6 +10,7 @@
   const writeData = (data) => {
         app.innerHTML = ''
         data.forEach((data) => {
+          const wikiLinkartist = "https://en.wikipedia.org/wiki/"+data.artist.replaceAll(' ', '_');
           app.innerHTML += `
             <div class="card border-white w-100 mb-3" data-aos="fade-up" data-aos-duration="1500">
               <div class="row">
@@ -20,7 +21,7 @@
                   <div class="card-body text-end">
                     <div class="text-end card-title">
                       <h5 class="card-title">${data.name}</h5>
-                      <p class="card-text"><b>${data.artist}</b></p>
+                      <p class="card-text"><a href="${wikiLinkartist}"target="_blank">${data.artist}</a></p>
                       <iframe src="https://open.spotify.com/embed/album/${data.url}" width="100%" height="75" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>  
                     </div>
                   </div>
