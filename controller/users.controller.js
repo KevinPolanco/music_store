@@ -102,6 +102,11 @@ const loginUser = async (req, res) => {
   })
 };
 
+const getUserType = async (req, res) => {
+  const type = req.type;
+  return res.json({type})
+};
+
 
 module.exports = {
   getUsers,
@@ -109,5 +114,6 @@ module.exports = {
   createUsers,
   updateUser,
   deleteUser,
-  loginUser
+  loginUser,
+  getUserType
 }

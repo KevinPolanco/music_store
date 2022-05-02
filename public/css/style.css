@@ -4,5 +4,5 @@ a:link, a:visited, a:active {
 }
 
 .minHeight {
-  min-height: calc(100vh - 70px - 255px);
+  min-height: calc(100vh - 70px - 200px);
 }
