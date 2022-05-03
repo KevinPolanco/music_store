@@ -4,10 +4,7 @@
   <div id="app"class="container row row-cols-1 mt-5">  </div>
 </div>
 
-<div class="d-flex justify-content-center" data-aos="fade-up" data-aos-duration="1500">
-    <button id="previous" type="button" data-previous="previous" class="btn btn-outline-warning m-2 disabled"><</button>
-    <button id="next" type="button" data-next="next" class="btn btn-outline-warning m-2">></button>
-</div>
+{{> NavigationButtons}}
 
 {{!-- modal --}}
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -22,10 +19,7 @@
 </div>
 
 <script>
-
-  let limit = 20;
-  let offset = 0;
-  let golabalDiscs = []
+ 
   const writeData = (data) => {
     app.innerHTML = ''
     data.forEach((data) => {
@@ -139,40 +133,6 @@
 
       document.addEventListener('click', async(e) => { 
         
-        if(e.target.dataset.next){  
-          window.scrollTo(0,0)         
-          offset += limit;
-          const res = await fetch(`/api/v1/discs?limit=${limit}&offset=${offset}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-          })
-          const data = await res.json()
-
-          if(offset > 0) previous.classList.remove("disabled")
-          if(data.discs.length < limit) next.classList.add("disabled")
-          if(!data.ok) window.location.href= "login"
-          golabalDiscs.push(...data.discs)
-          writeData(data.discs)
-        }
-
-        if(e.target.dataset.previous){
-          window.scrollTo(0,0)     
-          offset -= limit;
-          const res = await fetch(`/api/v1/discs?limit=${limit}&offset=${offset}`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`
-            }
-          })
-          const data = await res.json()
-
-          if(offset == 0) previous.classList.add("disabled")
-          if(data.discs.length == limit) next.classList.remove("disabled")
-          if(!data.ok) window.location.href= "login"
-          golabalDiscs.push(...data.discs)
-          writeData(data.discs)
-        }
-
         if(e.target.dataset.update){
           const idDiscs = parseInt(e.target.dataset.update)
           const disc = golabalDiscs.find(item => item.id === idDiscs)

@@ -3,6 +3,7 @@ const express = require('express')
 const routerApi = require('./routes')
 const { create } = require("express-handlebars");
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 const hbs = create({
   partialsDir: ["views/components"],
@@ -22,4 +23,4 @@ app.use(express.json());
 
 routerApi(app);
 
-app.listen(3000, () => {console.log(`Server ON, in port 3000`)})
+app.listen(PORT, () => {console.log(`Server ON, in port ${PORT}`)})
