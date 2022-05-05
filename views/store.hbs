@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (!data.ok) {
         window.location.href = "login";
       }
-      console.log(data.discs);
+      golabalDiscs.push(...data.discs)
       writeData(data.discs);
     } catch (error) {
       console.log(error);
@@ -102,5 +102,5 @@ document.addEventListener("click", async (e) => {
 });
 
 
-  
+
 </script>

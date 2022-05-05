@@ -32,9 +32,9 @@
 
 <script>
   const msg = document.getElementById('msg')
-  const writeData = (data) => {
+  const writeMsg = (text) => {
         msg.innerHTML = '';
-        msg.innerHTML = `<p style="color: red;">${data.msg}</p>`;
+        msg.innerHTML = `<p style="color: red;">${text}</p>`;
   } 
 
   document.addEventListener('submit', async (e) => {
@@ -52,7 +52,10 @@
         })
       const data = await res.json()
       if(!data.ok) {
-        writeData(data)
+        console.log(data.msg)
+        console.log(MsgTraductor(data.msg))
+        writeMsg(MsgTraductor(data.msg))
+
       }
       if(data.ok){
         localStorage.setItem('token', data.token)

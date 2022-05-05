@@ -53,9 +53,9 @@
 
 <script>
   const msg = document.getElementById('msg')
-  const writeData = (data) => {
+  const writeMsg = (text) => {
     msg.innerHTML = '';
-    msg.innerHTML = `<p class="mb-2 mtb-5" style="color: red;">${data.msg}</p>`;
+    msg.innerHTML = `<p class="mb-2 mtb-5" style="color: red;">${text}</p>`;
   }
   document.addEventListener("DOMContentLoaded", async() => {
     const res = await fetch('/api/v1/discs/admin', {
@@ -90,7 +90,7 @@
       const data = await res.json()
       console.log(data)
       if(!data.ok) {
-        writeData(data)
+        writeMsg(MsgTraductor(data.msg))
       }
       if(data.ok){
         window.location.href = "/adminAlbums";

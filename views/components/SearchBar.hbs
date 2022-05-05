@@ -9,6 +9,7 @@
 <div id="textMsg" class="text-center"></div>
 
 <script>
+
 document.addEventListener("click", async (e) => {
 
   if (e.target.dataset.search) {
@@ -27,6 +28,7 @@ document.addEventListener("click", async (e) => {
         },
       });
       const data = await res.json();
+      golabalDiscs.push(...data.discs)
       const searchRes = await data.discs.filter(
         (item) =>
           item.label.toLowerCase().includes(text)  ||
@@ -36,13 +38,46 @@ document.addEventListener("click", async (e) => {
           item.release_year.toString().includes(text)
       );
   
-      if (searchRes.length === 0) {
-        textMsg.innerHTML += `<p data-aos="zoom-out" data-aos-duration="500">No se encuentran "${text}"</p>`;
+      if(searchRes.length === 0) {
+        textMsg.innerHTML += `<p data-aos="zoom-out" data-aos-duration="500">No se encuentran "${text}"</p>`
       }
-
+      textMsg.innerHTML ="";
       writeData(searchRes);
     }
 
+})
+
+text.addEventListener("keyup", async (e) => {
+         
+  textMsg.innerHTML = "";
+  const text = document.getElementById("text").value.toLowerCase();
+  
+
+  const res = await fetch(`/api/v1/discs`, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+  const data = await res.json();
+  golabalDiscs.push(...data.discs)
+  const searchRes = await data.discs.filter(
+    (item) =>
+      item.label.toLowerCase().includes(text)  ||
+      item.artist.toLowerCase().includes(text) ||
+      item.name.toLowerCase().includes(text)   ||
+      item.genre.toLowerCase().includes(text)  ||
+      item.release_year.toString().includes(text)
+  );
+  console.log(text)
+  if(text.length < 1) {
+    let discs = data.discs.slice(0,10)
+    console.log(discs)
+    writeData(discs);
+    return;
+  }
+  textMsg.innerHTML ="";
+  writeData(searchRes);
+    
 })
 
 </script>

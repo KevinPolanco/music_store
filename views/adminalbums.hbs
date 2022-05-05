@@ -97,9 +97,9 @@
       `
   }
 
-  const writeMsg = (data) => {
+  const writeMsg = (text) => {
     msg.innerHTML = '';
-    msg.innerHTML = `<p class="mb-2 mtb-5" style="color: red;">${data.msg}</p>`;
+    msg.innerHTML = `<p class="mb-2 mtb-5" style="color: red;">${text}</p>`;
   }
 
   document.addEventListener("DOMContentLoaded", async() => {
@@ -186,7 +186,7 @@
         }
 
         if(!resData.ok){
-          writeMsg(resData)
+          writeMsg(MsgTraductor(resData.msg))
         }
 
         if(resData.ok){
